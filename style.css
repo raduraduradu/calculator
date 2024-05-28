@@ -7,8 +7,8 @@ body {
 }
 
 .calculator-box {
-  height: 70%;
-  width: 40%;
+  height: 700px;
+  width: 400px;
   padding: 16px;
   background-color: #333;
   display: flex;
@@ -46,8 +46,9 @@ body {
   background-color: #555;
 }
 
-#btn-clear {
-  width: 60%;
+#btn-clear,
+#btn-del {
+  width: 45%;
   background-color: #ccd;
   color: black;
   border: none;

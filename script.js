@@ -36,11 +36,30 @@ function operate(a, operator, b) {
   }
 }
 
+displayValue = document.querySelector("#calculator-screen");
+
 buttonsNodelist = document.querySelectorAll(".calculator-box button");
 
 buttons = {};
 for (let i = 0; i < buttonsNodelist.length; i++){
   buttons[buttonsNodelist[i].textContent] = buttonsNodelist[i];
+  if (["=","Clear","Delete"].includes(buttonsNodelist[i].textContent) == false) {
+    if(["/","x","+","-","."].includes(buttonsNodelist[i].textContent)){
+      buttons[buttonsNodelist[i].textContent].onclick = (e) => {
+        console.log(displayValue.textContent.slice(-1), e.target.textContent)
+        if(displayValue.textContent.slice(-1) != e.target.textContent){
+          displayValue.textContent += e.target.textContent;
+        }
+        else {
+          displayValue.textContent.replace(/.$/, e.target.textContent);
+        }
+      }
+    }
+    else {
+      buttons[buttonsNodelist[i].textContent].onclick = (e) => {
+        displayValue.textContent += e.target.textContent;
+      }
+    }
+  }
 }
-
 delete buttonsNodelist;
