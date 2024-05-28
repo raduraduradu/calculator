@@ -24,14 +24,23 @@ function operate(a, operator, b) {
     case "+":
       return add(a, b);
       break;
-    case: "-":
+    case "-":
       return subtract(a, b);
       break;
-    case: "*":
+    case "*":
       return multiply(a, b);
       break;
-    case: "/":
+    case "/":
       return divide(a, b);
       break;
   }
 }
+
+buttonsNodelist = document.querySelectorAll(".calculator-box button");
+
+buttons = {};
+for (let i = 0; i < buttonsNodelist.length; i++){
+  buttons[buttonsNodelist[i].textContent] = buttonsNodelist[i];
+}
+
+delete buttonsNodelist;
