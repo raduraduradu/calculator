@@ -78,11 +78,11 @@ for (let i = 0; i < buttonsNodelist.length; i++){
         let btnValue = e.target.textContent;
 
         //add new character if last character is a number OR last character is '-' and: last two characters aren't an operator and a '-', last character isn't a '.', displayValue isn't empty
-        if((lastChar >= '0' && lastChar <= '9') || (btnValue == "-" && (operatorBtns.includes(secondLastChar) && lastChar == '-') == false && [' ','.'].includes(lastChar) == false)){
+        if((lastChar >= '0' && lastChar <= '9') || (btnValue == "-" && (operatorBtns.includes(secondLastChar) && lastChar == '-') == false && ['','.'].includes(lastChar) == false)){
           displayValue.textContent += btnValue;
         }
         //replace last character if displayValue isn't empty and last two characters aren't an operator and a '-'
-        else if(lastChar != ' ' && (operatorBtns.includes(secondLastChar) && lastChar == '-') == false){
+        else if(lastChar != '' && (operatorBtns.includes(secondLastChar) && lastChar == '-') == false){
           displayValue.textContent = displayValue.textContent.replace(/.$/, btnValue);
         }
         //otherwise do nothing
@@ -96,3 +96,11 @@ for (let i = 0; i < buttonsNodelist.length; i++){
   }
 }
 delete buttonsNodelist;
+
+buttons["Clear"].onclick = () => {
+  displayValue.textContent = '';
+}
+
+buttons["Delete"].onclick = () => {
+  displayValue.textContent = displayValue.textContent.slice(0, -1);
+}
