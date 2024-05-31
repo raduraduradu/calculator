@@ -42,8 +42,6 @@ buttonsNodelist = document.querySelectorAll(".calculator-box button");
 
 let buttons = {};
 
-let isReplaceable = true; //when false it means that the last character was a minus that can't be replaced with another operator
-
 const operatorBtns = ["/","x","+","-","."];
 
 for (let i = 0; i < buttonsNodelist.length; i++){
@@ -74,17 +72,20 @@ for (let i = 0; i < buttonsNodelist.length; i++){
   if(["=", "Clear", "Delete"].includes(btnKey) == false) {
     if (operatorBtns.includes(btnKey)) { //event listener for operator buttons
       buttons[btnKey].onclick = (e) => {
-        if((displayValue.textContent.slice(-1) >= '0' && displayValue.textContent.slice(-1) <= '9')
-          || (e.target.textContent == "-"
-            && (operatorBtns.includes(displayValue.textContent.slice(-2)[0]) && displayValue.textContent.slice(-1) == '-') == false
-            && displayValue.textContent.slice(-1) != ' ')){
-          displayValue.textContent += e.target.textContent;
+
+        let lastChar = displayValue.textContent.slice(-1);
+        let secondLastChar = displayValue.textContent.slice(-2)[0];
+        let btnValue = e.target.textContent;
+
+        //add new character if last character is a number OR last character is '-' and: last two characters aren't an operator and a '-', last character isn't a '.', displayValue isn't empty
+        if((lastChar >= '0' && lastChar <= '9') || (btnValue == "-" && (operatorBtns.includes(secondLastChar) && lastChar == '-') == false && [' ','.'].includes(lastChar) == false)){
+          displayValue.textContent += btnValue;
         }
-        else if(displayValue.textContent.slice(-1) != ' '
-          && operatorBtns.includes(displayValue.textContent.slice(-2)[0]) == false
-          && displayValue.textContent.slice(-1) != '-'){
-          displayValue.textContent = displayValue.textContent.replace(/.$/, e.target.textContent);
+        //replace last character if displayValue isn't empty and last two characters aren't an operator and a '-'
+        else if(lastChar != ' ' && (operatorBtns.includes(secondLastChar) && lastChar == '-') == false){
+          displayValue.textContent = displayValue.textContent.replace(/.$/, btnValue);
         }
+        //otherwise do nothing
       };
     }
     else { //event listener for number buttons
