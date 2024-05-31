@@ -41,15 +41,21 @@ const displayValue = document.querySelector("#calculator-screen");
 buttonsNodelist = document.querySelectorAll(".calculator-box button");
 
 let buttons = {};
+
+let isReplaceable = true; //when false it means that the last character was a minus that can't be replaced with another operator
+
+const operatorBtns = ["/","x","+","-","."];
+
 for (let i = 0; i < buttonsNodelist.length; i++){
-  buttons[buttonsNodelist[i].textContent] = buttonsNodelist[i];
-  if (["=","Clear","Delete"].includes(buttonsNodelist[i].textContent) == false) {
-    operatorBtns = ["/","x","+","-","."];
+  btnKey = buttonsNodelist[i].textContent; //current button key
+  buttons[btnKey] = buttonsNodelist[i]; //adds button objects to buttons object
+
+  /*if (["=","Clear","Delete"].includes(buttonsNodelist[i].textContent) == false) {
     if(operatorBtns.includes(buttonsNodelist[i].textContent)){
       buttons[buttonsNodelist[i].textContent].onclick = (e) => {
         console.log(displayValue.textContent.slice(-1), e.target.textContent)
         if(!(displayValue.textContent.slice(-1) == "-" && e.target.textContent == "-")){
-          if(operatorBtns.includes(displayValue.textContent.slice(-1)) && (e.target.textContent != "-" /*&& displayValue.textContent.slice(-1) == "-"*/)){ // these combos should work: /-, --, *-
+          if(operatorBtns.includes(displayValue.textContent.slice(-1)) && (e.target.textContent != "-")){
             displayValue.textContent = displayValue.textContent.replace(/.$/, e.target.textContent);
           }
           else {
@@ -60,6 +66,29 @@ for (let i = 0; i < buttonsNodelist.length; i++){
     }
     else {
       buttons[buttonsNodelist[i].textContent].onclick = (e) => {
+        displayValue.textContent += e.target.textContent;
+      }
+    }
+  }*/
+
+  if(["=", "Clear", "Delete"].includes(btnKey) == false) {
+    if (operatorBtns.includes(btnKey)) { //event listener for operator buttons
+      buttons[btnKey].onclick = (e) => {
+        if((displayValue.textContent.slice(-1) >= '0' && displayValue.textContent.slice(-1) <= '9')
+          || (e.target.textContent == "-"
+            && (operatorBtns.includes(displayValue.textContent.slice(-2)[0]) && displayValue.textContent.slice(-1) == '-') == false
+            && displayValue.textContent.slice(-1) != ' ')){
+          displayValue.textContent += e.target.textContent;
+        }
+        else if(displayValue.textContent.slice(-1) != ' '
+          && operatorBtns.includes(displayValue.textContent.slice(-2)[0]) == false
+          && displayValue.textContent.slice(-1) != '-'){
+          displayValue.textContent = displayValue.textContent.replace(/.$/, e.target.textContent);
+        }
+      };
+    }
+    else { //event listener for number buttons
+      buttons[btnKey].onclick = (e) => {
         displayValue.textContent += e.target.textContent;
       }
     }
