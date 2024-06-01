@@ -26,15 +26,12 @@ const operatorBtns = ["/","*","+","-","."];
 function onDecimal() {
   for(let i = displayValue.textContent.length-1; i > 0; i--){
     if(displayValue.textContent[i] == '.'){
-      console.log("found a dot");
       return true;
     }
     else if(operatorBtns.includes(displayValue.textContent[i])){
-      console.log("no");
       return false;
     }
   }
-  console.log("for loop ended and found nothing");
   return false;
 }
 
