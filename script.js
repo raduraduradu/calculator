@@ -23,6 +23,21 @@ let buttons = {};
 
 const operatorBtns = ["/","*","+","-","."];
 
+function onDecimal() {
+  for(let i = displayValue.textContent.length-1; i > 0; i--){
+    if(displayValue.textContent[i] == '.'){
+      console.log("found a dot");
+      return true;
+    }
+    else if(operatorBtns.includes(displayValue.textContent[i])){
+      console.log("no");
+      return false;
+    }
+  }
+  console.log("for loop ended and found nothing");
+  return false;
+}
+
 for (let i = 0; i < buttonsNodelist.length; i++){
   btnKey = buttonsNodelist[i].textContent; //current button key
   buttons[btnKey] = buttonsNodelist[i]; //adds button objects to buttons object
@@ -34,12 +49,12 @@ for (let i = 0; i < buttonsNodelist.length; i++){
         let secondLastChar = displayValue.textContent.slice(-2)[0];
         let btnValue = e.target.textContent;
 
-        //add new character if last character is a number OR last character is '-' and: last two characters aren't an operator and a '-', last character isn't a '.', displayValue isn't empty
-        if((lastChar >= '0' && lastChar <= '9') || (btnValue == "-" && (operatorBtns.includes(secondLastChar) && lastChar == '-') == false && ['.'].includes(lastChar) == false)){
+        //add new character if last character is a number OR last character is '-' and: last two characters aren't an operator and a '-', last character isn't a '.', displayValue isn't empty, button is '.' and last characters are already a decimal number
+        if(((lastChar >= '0' && lastChar <= '9') || (btnValue == "-" && (operatorBtns.includes(secondLastChar) && lastChar == '-') == false && ['.'].includes(lastChar) == false)) && (onDecimal() && btnValue == '.') == false){
           displayValue.textContent += btnValue;
         }
         //replace last character if displayValue isn't empty and last two characters aren't an operator and a '-'
-        else if(lastChar != '' && (operatorBtns.includes(secondLastChar) && lastChar == '-') == false){
+        else if((lastChar != '' && (operatorBtns.includes(secondLastChar) && lastChar == '-') == false) && (onDecimal() && btnValue == '.') == false){
           displayValue.textContent = displayValue.textContent.replace(/.$/, btnValue);
         }
         //otherwise do nothing
@@ -86,9 +101,7 @@ buttons["="].onclick = () => {
       }
 
       let result = operate(Number(equ.substring(startIndex,operatorIndex)), equ[operatorIndex], Number(equ.substring(operatorIndex+1, endIndex + 1))); 
-      if(result % 1 != 0){
-        result = result.toFixed(4);
-      }
+      result = Math.round(result * 10000) / 10000;
       equ = equ.substring(0, startIndex) + result + equ.substring(endIndex+1, equ.length) // replace operation with result
     }
   }
