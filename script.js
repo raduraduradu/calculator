@@ -67,10 +67,10 @@ let opOrder = [/[*/]/, /[+-]/];
 buttons["="].onclick = () => {
   let equ = displayValue.textContent //equation
   for(let i = 0; i < opOrder.length; i++) {
-    while(equ.slice(1).search(opOrder[i]) != -1){
+    while(equ.slice(1).search(opOrder[i]) != -1){ //calculate while there are still operators, doesn't take into account first character so it doesn't break when first number is negative
       if(equ[0] == '-'){
         operatorIndex = equ.slice(1).search(opOrder[i]) + 1;
-      }
+      } //if equation starts with a negative number ignore the first minus as an operator
       else {
         operatorIndex = equ.search(opOrder[i]);
       }
@@ -78,18 +78,18 @@ buttons["="].onclick = () => {
       let startIndex = 0;
       for(let i = operatorIndex - 1; (/[*/+-]/.test(equ[i]) == false && i >= 0) || (equ[i] == '-' && i == 0); i--){
         startIndex = i;
-      }
+      } //get index for first char of the operation
 
       let endIndex = 0;
       for(let i = operatorIndex + 1; (/[*/+-]/.test(equ[i]) == false && i < equ.length) || (equ[i] == '-' && i == operatorIndex+1); i++){
         endIndex = i;
       }
 
-      let result = operate(Number(equ.substring(startIndex,operatorIndex)), equ[operatorIndex], Number(equ.substring(operatorIndex+1, endIndex + 1)));
+      let result = operate(Number(equ.substring(startIndex,operatorIndex)), equ[operatorIndex], Number(equ.substring(operatorIndex+1, endIndex + 1))); 
       if(result % 1 != 0){
         result = result.toFixed(4);
       }
-      equ = equ.substring(0, startIndex) + result + equ.substring(endIndex+1, equ.length)
+      equ = equ.substring(0, startIndex) + result + equ.substring(endIndex+1, equ.length) // replace operation with result
     }
   }
   displayValue.textContent = equ;
