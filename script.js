@@ -1,4 +1,4 @@
-function add(a, b) {
+/*function add(a, b) {
   return a + b;
 }
 
@@ -17,21 +17,21 @@ function divide(a, b) {
   else {
     return "cannot divide by zero";
   };
-}
+}*/
 
 function operate(a, operator, b) {
   switch(operator) {
     case "+":
-      return add(a, b);
+      return a + b;
       break;
     case "-":
-      return subtract(a, b);
+      return a - b;
       break;
     case "*":
-      return multiply(a, b);
+      return a * b;
       break;
     case "/":
-      return divide(a, b);
+      return a / b;
       break;
   }
 }
@@ -42,7 +42,7 @@ buttonsNodelist = document.querySelectorAll(".calculator-box button");
 
 let buttons = {};
 
-const operatorBtns = ["/","x","+","-","."];
+const operatorBtns = ["/","*","+","-","."];
 
 for (let i = 0; i < buttonsNodelist.length; i++){
   btnKey = buttonsNodelist[i].textContent; //current button key
@@ -103,4 +103,27 @@ buttons["Clear"].onclick = () => {
 
 buttons["Delete"].onclick = () => {
   displayValue.textContent = displayValue.textContent.slice(0, -1);
+}
+
+let opOrder = [/[*/]/, /[+-]/];
+
+buttons["="].onclick = () => {
+  for(let i = 0; i < opOrder.length; i++) {
+    while(displayValue.textContent.search(opOrder[i]) != -1){
+      let operatorIndex = displayValue.textContent.search(opOrder[i]);
+
+      let startIndex = 0;
+      for(let i = operatorIndex - 1; /[*/+-]/.test(displayValue.textContent[i]) == false && i >= 0; i--){
+        startIndex = i;
+      }
+
+      let endIndex = 0;
+      for(let i = operatorIndex + 1; /[*/+-]/.test(displayValue.textContent[i]) == false && i < displayValue.textContent.length; i++){
+        endIndex = i;
+      }
+
+      let result = operate(Number(displayValue.textContent.substring(startIndex,operatorIndex)), displayValue.textContent[operatorIndex], Number(displayValue.textContent.substring(operatorIndex+1, endIndex + 1)));
+      displayValue.textContent = displayValue.textContent.substring(0, startIndex) + result + displayValue.textContent.substring(endIndex+1, displayValue.textContent.length)
+    }
+  }
 }
