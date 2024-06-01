@@ -65,30 +65,32 @@ buttons["Delete"].onclick = () => {
 let opOrder = [/[*/]/, /[+-]/];
 
 buttons["="].onclick = () => {
+  let equ = displayValue.textContent //equation
   for(let i = 0; i < opOrder.length; i++) {
-    while(displayValue.textContent.slice(1).search(opOrder[i]) != -1){
-      if(displayValue.textContent[0] == '-'){
-        operatorIndex = displayValue.textContent.slice(1).search(opOrder[i]) + 1;
+    while(equ.slice(1).search(opOrder[i]) != -1){
+      if(equ[0] == '-'){
+        operatorIndex = equ.slice(1).search(opOrder[i]) + 1;
       }
       else {
-        operatorIndex = displayValue.textContent.search(opOrder[i]);
+        operatorIndex = equ.search(opOrder[i]);
       }
 
       let startIndex = 0;
-      for(let i = operatorIndex - 1; (/[*/+-]/.test(displayValue.textContent[i]) == false && i >= 0) || (displayValue.textContent[i] == '-' && i == 0); i--){
+      for(let i = operatorIndex - 1; (/[*/+-]/.test(equ[i]) == false && i >= 0) || (equ[i] == '-' && i == 0); i--){
         startIndex = i;
       }
 
       let endIndex = 0;
-      for(let i = operatorIndex + 1; (/[*/+-]/.test(displayValue.textContent[i]) == false && i < displayValue.textContent.length) || (displayValue.textContent[i] == '-' && i == operatorIndex+1); i++){
+      for(let i = operatorIndex + 1; (/[*/+-]/.test(equ[i]) == false && i < equ.length) || (equ[i] == '-' && i == operatorIndex+1); i++){
         endIndex = i;
       }
 
-      let result = operate(Number(displayValue.textContent.substring(startIndex,operatorIndex)), displayValue.textContent[operatorIndex], Number(displayValue.textContent.substring(operatorIndex+1, endIndex + 1)));
+      let result = operate(Number(equ.substring(startIndex,operatorIndex)), equ[operatorIndex], Number(equ.substring(operatorIndex+1, endIndex + 1)));
       if(result % 1 != 0){
         result = result.toFixed(4);
       }
-      displayValue.textContent = displayValue.textContent.substring(0, startIndex) + result + displayValue.textContent.substring(endIndex+1, displayValue.textContent.length)
+      equ = equ.substring(0, startIndex) + result + equ.substring(endIndex+1, equ.length)
     }
   }
+  displayValue.textContent = equ;
 }
