@@ -40,7 +40,7 @@ const operatorTypingRules = function(btnValue){
   if((onDecimal() && btnValue == '.') == false &&
     (operatorBtns.includes(secondLastChar) && lastChar == '-') == false &&
     (lastChar == '' && btnValue != '-') == false){
-      if (lastChar >= '0' && lastChar <= '9' || btnValue == '-'){
+      if (lastChar >= '0' && lastChar <= '9' || btnValue == '-' && lastChar != '.'){
         return "add";
       }
       else {
