@@ -39,7 +39,7 @@ const operatorTypingRules = function(btnValue){
   }
   if((onDecimal() && btnValue == '.') == false &&
     (operatorBtns.includes(secondLastChar) && lastChar == '-') == false &&
-    lastChar != ''){
+    (lastChar == '' && btnValue != '-') == false){
       if (lastChar >= '0' && lastChar <= '9' || btnValue == '-'){
         return "add";
       }
@@ -93,13 +93,10 @@ buttons["="].onclick = () => {
 
   if (operatorBtns.includes(equ.slice(-1)) == false){ //only perform calculation if last character isn't an operator
     for(let i = 0; i < opOrder.length; i++) { //does all multiplication and division first then does the adding and subtracting
-      while(equ.slice(1).search(opOrder[i]) != -1){ //calculate while there are still operators, doesn't take into account first character so it doesn't break when first number is negative
-        if(equ[0] == '-'){
-          operatorIndex = equ.slice(1).search(opOrder[i]) + 1;
-        } //if equation starts with a negative number ignore the first minus as an operator
-        else {
-          operatorIndex = equ.search(opOrder[i]);
-        }
+      while(equ.slice(1).replace("e+","").search(opOrder[i]) != -1){ //calculate while there are still operators, doesn't take into account first character so it doesn't break when first number is negative, excepts the + in "e+"
+        
+        //if equation starts with a negative number ignore the first minus as an operator
+        operatorIndex = equ.replace("-", " ").replace("e+", "  ").search(opOrder[i]);
 
         let startIndex = 0;
         for(let i = operatorIndex - 1; (/[*/+-]/.test(equ[i]) == false && i >= 0) || (equ[i] == '-' && i == 0); i--){

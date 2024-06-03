@@ -15,8 +15,9 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 15px;
-  border-left: 8px solid grey;
+  /*border-left: 8px solid grey;
   border-top: 5px solid #666;
+  */
 }
 
 #calculator-screen {
@@ -38,12 +39,12 @@ body {
   margin: 0;
   padding: 8px;
   border: none;
-  border-left: 2px solid #999;
+  /*border-left: 2px solid #999;*/
   border-radius: 8px;
   font-size: 32px;
   color: white;
   height: 10%;
-  width: 21%;
+  width: 22%;
   background-color: #777;
 }
 
