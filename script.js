@@ -23,7 +23,6 @@ let buttons = {};
 const operatorBtns = ["/","*","+","-","."];
 
 const operatorTypingRules = function(btnValue){
-
   let lastChar = displayValue.textContent.slice(-1);
   let secondLastChar = displayValue.textContent.slice(-2)[0];
 
@@ -60,7 +59,6 @@ for (let i = 0; i < buttonsNodelist.length; i++){
   if(["=", "Clear", "Delete"].includes(btnKey) == false) {
     if (operatorBtns.includes(btnKey)) { //event listener for operator buttons
       buttons[btnKey].onclick = (e) => {
-        
         let btnValue = e.target.textContent;
 
         if(operatorTypingRules(btnValue) == "add"){
