@@ -96,7 +96,12 @@ buttons["="].onclick = () => {
       while(equ.slice(1).replace("e+","").search(opOrder[i]) != -1){ //calculate while there are still operators, doesn't take into account first character so it doesn't break when first number is negative, excepts the + in "e+"
         
         //if equation starts with a negative number ignore the first minus as an operator
-        operatorIndex = equ.replace("-", " ").replace("e+", "  ").search(opOrder[i]);
+        if(equ[0] == '-'){
+          operatorIndex = equ.replace("-", " ").replace("e+", "  ").search(opOrder[i]);
+        }
+        else {
+          operatorIndex = equ.replace("e+", "  ").search(opOrder[i]);
+        }
 
         let startIndex = 0;
         for(let i = operatorIndex - 1; (/[*/+-]/.test(equ[i]) == false && i >= 0) || (equ[i] == '-' && i == 0); i--){
